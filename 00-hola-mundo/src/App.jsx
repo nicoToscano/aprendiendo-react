@@ -1,6 +1,16 @@
-import { useState } from "react";
 import "./App.css";
 import { TwitterFollowCard } from "./TwitterFollowCard";
+
+//---------------------------------------------------------------------
+//---------Creación de un array de objetos con los usuarios------------
+//---------------------------------------------------------------------
+
+const users = [
+  { userName: "minudev", isFollowing: true, name: "Miguél Angel" },
+  { userName: "pheralb", isFollowing: false, name: "Pablo Hernandez" },
+  { userName: "elonmusk", isFollowing: true, name: "Elon Musk" },
+  { userName: "vxnder", isFollowing: false, name: "Vanderhart" },
+];
 
 export function App() {
   //   const formatUserName = (userName) => `@${userName}`;
@@ -25,27 +35,54 @@ export function App() {
   //   <TwitterFollowCard isFollowing userName={"vxnder"} name={"Vanderhart"} />
   // </div>
 
-  //Puede ser mala práctica pasar props de esta manera
+  //---------------------------------------------------------------------
+  //---------Puede ser mala práctica pasar props de esta manera----------
+  //---------------------------------------------------------------------
+
   // const minudev = { userName: "minudev", isFollowing: true };
   // const elonmusk = { isFollowing: false, userName: "elonmusk" };
 
-  const [name, setName] = useState("minudev");
+  // const [name, setName] = useState("minudev");
+
+  //---------------------------------------------------------------------
+  //----Lo siguiente es una forma de cargar los datos de los usuarios----
+  //---------------------------------------------------------------------
+
+  // return (
+  //   <section className="App">
+  //     {users.map((user) => {
+  //       const { userName, isFollowing, name } = user;
+
+  //       return (
+  //         <TwitterFollowCard
+  //           key={userName}
+  //           userName={userName}
+  //           initialIsFollowing={isFollowing}
+  //         >
+  //           {name}
+  //         </TwitterFollowCard>
+  //       );
+  //     })}
+  //   </section>
+  // );
+
+  //----------------------------------------------------------------------
+  //----Lo siguiente es otra forma de cargar los datos de los usuarios----
+  //----------------------------------------------------------------------
 
   return (
     <section className="App">
-      <TwitterFollowCard userName={name} initialIsFollowing>
-        Miguél Angel
-      </TwitterFollowCard>
+      {users.map(({ userName, isFollowing, name }) => (
+        // const { userName, isFollowing, name } = users;
 
-      <TwitterFollowCard userName={"pheralb"} initialIsFollowing={false}>
-        Pablo Hernandez
-      </TwitterFollowCard>
-      <TwitterFollowCard userName={"elonmusk"} initialIsFollowing>
-        Elon Musk
-      </TwitterFollowCard>
-      <TwitterFollowCard initialIsFollowing={false}>Vadelhar</TwitterFollowCard>
-
-      {/* <button onClick={() => setName("nicolas")}>Cambiar Nombre</button> */}
+        <TwitterFollowCard
+          key={userName}
+          userName={userName}
+          initialIsFollowing={isFollowing}
+        >
+          {name}
+        </TwitterFollowCard>
+      ))}
     </section>
   );
 }
