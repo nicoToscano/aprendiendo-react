@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./App.css";
 import { TwitterFollowCard } from "./TwitterFollowCard";
 
@@ -25,18 +26,26 @@ export function App() {
   // </div>
 
   //Puede ser mala práctica pasar props de esta manera
-  const minudev = { userName: "minudev", isFollowing: true };
-  const elonmusk = { isFollowing: false, userName: "elonmusk" };
+  // const minudev = { userName: "minudev", isFollowing: true };
+  // const elonmusk = { isFollowing: false, userName: "elonmusk" };
+
+  const [name, setName] = useState("minudev");
 
   return (
     <section className="App">
-      <TwitterFollowCard {...minudev}>Miguél Angel</TwitterFollowCard>
+      <TwitterFollowCard userName={name} initialIsFollowing>
+        Miguél Angel
+      </TwitterFollowCard>
 
-      <TwitterFollowCard isFollowing={false} userName={"pheralb"}>
+      <TwitterFollowCard userName={"pheralb"} initialIsFollowing={false}>
         Pablo Hernandez
       </TwitterFollowCard>
-      <TwitterFollowCard {...elonmusk}>Elon Musk</TwitterFollowCard>
-      <TwitterFollowCard isFollowing>Vadelhar</TwitterFollowCard>
+      <TwitterFollowCard userName={"elonmusk"} initialIsFollowing>
+        Elon Musk
+      </TwitterFollowCard>
+      <TwitterFollowCard initialIsFollowing={false}>Vadelhar</TwitterFollowCard>
+
+      {/* <button onClick={() => setName("nicolas")}>Cambiar Nombre</button> */}
     </section>
   );
 }
