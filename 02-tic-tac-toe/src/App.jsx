@@ -26,6 +26,20 @@ const Square = ({ children, isSelected, updateBoard, index }) => {
   );
 };
 
+const WINNER_COMBOS = [
+  // Horizontal
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  // Vertical
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  // Diagonal
+  [0, 4, 8],
+  [2, 4, 6],
+];
+
 function App() {
   //Se usa un estado para guardar el tablero
   //Creación de un estado con un array de 9 elementos con valor null
@@ -33,9 +47,27 @@ function App() {
 
   const [turn, setTurn] = useState(TURNS.X);
 
+  // null es que no hay ganador, false es que hay empate
+  const [winner, setWinner] = useState(null);
+
+  const checkWinner = (boardToCheck) => {
+    //Revisa todas las combinaciones posibles
+    for (const combo of WINNER_COMBOS) {
+      const [a, b, c] = combo;
+      if (
+        boardToCheck[a] && //Si el cuadrado tiene un valor
+        boardToCheck[a] === boardToCheck[b] && //Si los dos cuadrados son iguales
+        boardToCheck[a] === boardToCheck[c] //Si los tres cuadrados son iguales
+      ) {
+        return boardToCheck[a]; //Devuelve el valor del cuadrado x u o
+      }
+    }
+    return null; //Si no hay ganador
+  };
+
   const updateBoard = (index) => {
-    // Si el cuadrado ya tiene un valor, no se puede actualizar
-    if (board[index]) return;
+    // Si el cuadrado ya tiene un valor, no se puede actualizar o si ya hay un ganador
+    if (board[index] || winner) return;
 
     // Crear un nuevo tablero con el valor del cuadrado actualizado
     const newBoard = [...board];
@@ -46,6 +78,15 @@ function App() {
     //Cambiar el turno
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
     setTurn(newTurn);
+
+    //Revisar si hay un ganador
+    const newWinner = checkWinner(newBoard);
+    if (newWinner) {
+      //Mostrar un mensaje con el ganador
+      alert(`Ganó ${newWinner}`);
+      //Actualizar el estado del ganador
+      setWinner(newWinner);
+    }
   };
 
   return (
