@@ -15,7 +15,7 @@ const Square = ({ children, isSelected, updateBoard, index }) => {
   const className = `square ${isSelected ? "is-selected" : ""}`;
 
   const handelClick = () => {
-    updateBoard();
+    updateBoard(index);
   };
 
   // Se muestra el valor del cuadrado
@@ -33,12 +33,20 @@ function App() {
 
   const [turn, setTurn] = useState(TURNS.X);
 
-  const updateBoard = () => {
-    //Cambia de jugador
-    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
-  };
+  const updateBoard = (index) => {
+    // Si el cuadrado ya tiene un valor, no se puede actualizar
+    if (board[index]) return;
 
-  console.log(board);
+    // Crear un nuevo tablero con el valor del cuadrado actualizado
+    const newBoard = [...board];
+    newBoard[index] = turn; //x u o
+    // Actualiza el estado del tablero
+    setBoard(newBoard);
+
+    //Cambiar el turno
+    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
+    setTurn(newTurn);
+  };
 
   return (
     <main className="board">
