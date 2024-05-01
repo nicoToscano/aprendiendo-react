@@ -83,9 +83,13 @@ function App() {
     const newWinner = checkWinner(newBoard);
     if (newWinner) {
       //Mostrar un mensaje con el ganador
-      alert(`Ganó ${newWinner}`);
+      // alert(`Ganó ${newWinner}`);
       //Actualizar el estado del ganador
-      setWinner(newWinner);
+      // setWinner(newWinner);
+      setWinner((prevWinner) => {
+        console.log(`Ganador ${newWinner}, Ganador anterior ${prevWinner}`);
+        return newWinner;
+      });
     }
   };
 
