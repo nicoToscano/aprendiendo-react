@@ -6,6 +6,10 @@ import { Square } from "./components/square.jsx";
 import { TURNS } from "./constants.js";
 import { checkWinnerFrom, checkEndGame } from "./logic/board.js";
 import { WinnerModal } from "./components/WinnerModal.jsx";
+import {
+  saveGameToStorage,
+  resetGameToStorage,
+} from "./logic/storage/index.js";
 
 function App() {
   console.log("render");
@@ -36,6 +40,8 @@ function App() {
     setBoard(Array(9).fill(null));
     setTurn(TURNS.X);
     setWinner(null);
+
+    resetGameToStorage();
   };
 
   const updateBoard = (index) => {
@@ -52,9 +58,11 @@ function App() {
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X;
     setTurn(newTurn);
 
+    saveGameToStorage({ turn: newTurn, board: newBoard });
+
     //Guardar la partida
     window.localStorage.setItem("board", JSON.stringify(newBoard));
-    window.localStorage.setItem("turn", turn);
+    window.localStorage.setItem("turn", newTurn);
 
     //Revisar si hay un ganador
     const newWinner = checkWinnerFrom(newBoard);
